@@ -13,22 +13,25 @@ import 'react-native-gesture-handler';
 const Stack = createStackNavigator()
 
 const App = (props) => {
-  console.log('ascajcsiuashc')
   return (
     <>
       
  
         <NavigationContainer>
           <Stack.Navigator 
-            screenOptions={{
-              headerShown: false
-            }}
+            
             initialRouteName="IndexPage"
           >
-            <Stack.Screen name="IndexPage" component={IndexPage} />
-            <Stack.Screen name="Register" component={RegisterPage} />
-            <Stack.Screen name="Login" component={LoginPage} />
-            <Stack.Screen name="mainPage" component={mainPage} />
+            <Stack.Screen
+              options={{
+                headerShown: false
+              }} 
+              name="IndexPage" 
+              component={IndexPage}
+            />
+            <Stack.Screen options={{headerShown: false}} name="Register" component={RegisterPage} />
+            <Stack.Screen options={{headerShown: false}}  name="Login" component={LoginPage} />
+            <Stack.Screen options={{headerShown: false}} name="mainPage" component={mainPage} />
           </Stack.Navigator>
           
         </NavigationContainer>

@@ -19,6 +19,10 @@ const Tab = createMaterialTopTabNavigator()
 
 const mainPage = props => {
     const [showSearchTab, setShowSearchTab] = useState(true)
+    const logout = ()=>{
+        console.log("acx")
+        props.navigation.navigate("IndexPage")
+    }
     return (
         <>
         {<SearchTab/>}
@@ -79,7 +83,7 @@ const mainPage = props => {
             <Tab.Screen name="watchPage" component={WatchPage}/>
             <Tab.Screen name="datingPage" component={DatingPage}/>
             <Tab.Screen name="notifyPage" component={notifyPage}/>
-            <Tab.Screen name="menu" component={Menu} />
+            <Tab.Screen name="menu" children={()=><Menu logout={logout}/>} />
         </Tab.Navigator>
         </>
     )

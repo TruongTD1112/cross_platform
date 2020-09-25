@@ -3,7 +3,7 @@ import {stringify} from 'querystring'
 
 export const CallApi = async (path, method, header, body, ObjectCancelAxios={}) => {
     const CancelToken = axios.CancelToken
-    const serverDomain = 'http://localhost:8888'
+    const serverDomain = 'http://192.168.234.2:8888'
     try {
         return axios({
             url: serverDomain + path,
