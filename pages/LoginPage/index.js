@@ -13,10 +13,14 @@ const LoginPage = (props) => {
         const response = await login({phone: phone, password: pass})
         if (response.status===200) {
             try{
+                const userName = response.data.name
+                console.log(response.data)
+                
                 await AsyncStorage.setItem('token', response.data.token)
                 await AsyncStorage.setItem('refreshToken', response.data.refreshToken)
-                await AsyncStorage.setItem('name', response.data.name)
+                await AsyncStorage.setItem('Name', userName)
                 await AsyncStorage.setItem('phone', phone)
+                await AsyncStorage.setItem('id', response.data.id)
             } catch{err => console.log(err)}
             
             props.navigation.navigate("mainPage")

@@ -1,10 +1,12 @@
 import React, {useState} from 'react'
 import {TouchableOpacity, Text, StyleSheet} from 'react-native'
+// import {  } from 'react-native-gesture-handler'
 
-const Button = props => {
+const Button = ({children, style, icon, onPress}) => {
     return (
-        <TouchableOpacity>
-            <Text>{props.title}</Text>
+        <TouchableOpacity style={{...styles.appButtonContainer, ...style }} onPress={onPress} >
+            {icon}
+            <Text  style={styles.appButtonText} >{children}</Text>
         </TouchableOpacity>
     )
 }
@@ -16,12 +18,19 @@ const styles = StyleSheet.create({
         elevation: 8,
         backgroundColor: "#1a73e8",
         borderRadius: 5,
-        alignSelf: 'center',
+        shadowColor: '#fff',
+        paddingHorizontal: 15  ,
+        paddingVertical: 7,
+        flexDirection: 'row',
+        justifyContent: 'center'
     },
     appButtonText: {
-        fontSize: 18,
+
+        fontSize: 15,
         color: "#fff",        
         alignSelf: "center",
-        textTransform: "capitalize"
+        textTransform: "capitalize",
+        fontWeight:"700",
+        marginLeft: 5
     }
 });

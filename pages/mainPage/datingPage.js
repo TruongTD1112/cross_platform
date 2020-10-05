@@ -6,6 +6,7 @@ import 'react-native-gesture-handler';
 import Animated from 'react-native-reanimated'
 
 const DatingPage = props => {
+
     return (
         <View>
             <Text>

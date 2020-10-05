@@ -4,6 +4,7 @@ import android.app.Application;
 import android.content.Context;
 import com.facebook.react.PackageList;
 import com.facebook.react.ReactApplication;
+import com.RNFetchBlob.RNFetchBlobPackage;
 import com.facebook.react.ReactInstanceManager;
 import com.facebook.react.ReactNativeHost;
 import com.facebook.react.ReactPackage;
@@ -14,6 +15,7 @@ import androidx.multidex.MultiDexApplication;
 import com.awesomeproject.DeviceInfoPackage;
 import java.util.List;
 import java.util.Arrays;
+
 
 
 public class MainApplication extends MultiDexApplication implements ReactApplication {
@@ -29,16 +31,11 @@ public class MainApplication extends MultiDexApplication implements ReactApplica
         protected List<ReactPackage> getPackages() {
           @SuppressWarnings("UnnecessaryLocalVariable")
           List<ReactPackage> packages = new PackageList(this).getPackages();
-          // Packages that cannot be autolinked yet can be added manually here, for example:
-          // packages.add(new MyReactNativePackage());
-          packages.add(new MainReactPackage());
-          packages.add(new DeviceInfoPackage());
-
+          // // Packages that cannot be autolinked yet can be added manually here, for example:
+          // // packages.add(new MyReactNativePackage());
+         
           return packages;
-          // return Arrays<ReactPackage>.asList(
-          //   new MainReactPackage(),
-          //   new DeviceInfoPackage()
-          // );
+          
         }
 
         @Override

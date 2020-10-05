@@ -1,24 +1,14 @@
 import React, { useState, useEffect } from 'react'
-import { View, Text, StyleSheet, NativeModules} from 'react-native'
+import { View, Text, StyleSheet} from 'react-native'
 import {Button} from 'react-native-paper'
 import { register } from '../../apis/Auth'
 import AsyncStorage from '@react-native-community/async-storage';
-const DeviceInfo = NativeModules.DeviceInfoGet;
+import 'react-native-gesture-handler'
 const Complete = props => {
     const [warning, setWarning] = useState('')
-    const [deviceID, setDeviceID] = useState('')
+    
 
-    useEffect (() => {
-        DeviceInfo.getDeviceID((err, ID) => {
-            if (err){
-                throw err
-            }
-            else{
-                console.log(ID)
-                setDeviceID(ID)
-            }
-        })
-    },[])
+    
 
 
     let data =  props.route.params
@@ -27,10 +17,11 @@ const Complete = props => {
         console.log(response)
         if (response.status == 200){
             console.log("OK")
+            console.log(response.data.name)
             await AsyncStorage.clear()
-            await AsyncStorage.setItem('token', response.data.token, err=>{console.log(err)})
-            await AsyncStorage.setItem('refreshToken', response.data.refreshToken, err => console.log('Err when saving phone'))
-            await AsyncStorage.setItem('name', response.data.name , err => console.log('Err when saving name'))        
+            await AsyncStorage.setItem('token', response.data.token)
+            await AsyncStorage.setItem('refreshToken', response.data.refreshToken)
+            await AsyncStorage.setItem('name', response.data.name)        
             props.navigation.navigate("mainPage")
         }else{
             setWarning(response.data.msg)
