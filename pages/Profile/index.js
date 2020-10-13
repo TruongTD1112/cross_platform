@@ -7,41 +7,33 @@ import AsyncStorage from '@react-native-community/async-storage'
 import Overlay from 'react-native-modal-overlay/index'
 import Button from '../../components/Button'
 import { Divider } from 'react-native-paper'
-
+import {API_URL} from '../../apis/Constance'
+import { from } from 'form-data'
 
 const Profile = (props) => {
 
     const [avatar, setAvatar] = useState('')
     const [wall, setWall] = useState('')
     const [whichImage, setWhichImage] = useState('')
-    const [path, setPath] = useState('http://localhost:8888/avatar/5f6b70b14338e50d483b9a91.jpg')
-    const [wallPath, setWallPath] = useState('http://localhost:8888/avatar/5f6b70b14338e50d483b9a91.jpg')
+    const [path, setPath] = useState('a')
+    const [wallPath, setWallPath] = useState('a')
     const [modalVisible, setModalVisible] = useState(false)
     const [userName, setUserName] = useState('')
     const [confirm, setConfirm] = useState(false)
 
-    // useEffect(() => {
-    //     let mounted = true
-    //     async function setName() {
-    //         try{
-    //             if (!mounted) return
-    //         const name = await AsyncStorage.getItem('Name')
-    //         const id = await AsyncStorage.getItem('id')
-    //         console.log(id)
-    //         setPath(`http://localhost:8888/avatar/${id}.jpg`)
-    //         setWallPath(`http://localhost:8888/wallpaper/${id}.jpg`)
-    //         setUserName(name)
-    //         }catch{err => console.log("err in useeffect: ", err)}
-    //     }
-    //     setName()
-    //     return  ()=>{
-    //         mounted=false
-    //         // const id = await AsyncStorage.getItem('id')            
-    //         // setPath(`http://localhost:8888/avatar/${id}.jpg`)
-    //         // setWallPath(`http://localhost:8888/wallpaper/${id}.jpg`)
-    //     }
-        
-    // },[])
+    const setName = () =>{
+        // if (!mounted) return
+        console.log("in eefffffffffff", path)
+        AsyncStorage.getItem('Name').then(value => setUserName(name))
+        AsyncStorage.getItem('id').then(id => {
+            setPath(`${API_URL}/avatar/${id}.jpg?date=${Date.now().toString()}`)
+            setWallPath(`${API_URL}/wallpaper/${id}.jpg?date=${Date.now().toString()}`)
+        })
+    }
+    useEffect(() => {        
+        setName()
+    }, [])
+
     const openGallery = (which) => {
         ImagePicker.openPicker({
             width: 800,
@@ -89,12 +81,16 @@ const Profile = (props) => {
         let tk = await AsyncStorage.getItem('token')
         try {
             let id = await AsyncStorage.getItem("id")
-            const response = await upload('POST', 'http://localhost:8888/upload-avatar', tk, avatar)
-            console.log(path)
-            if (response.data.msg == "Changed!") setPath(`http://localhost:8888/avatar/${id}.jpg?time=${Date.now().toString()}`)
-            
-            
-            
+            const response = await upload('POST', API_URL + '/upload-avatar', tk, avatar)
+            // console.log(response.data.msg)
+            let newPath = `${API_URL}/avatar/${id}.jpg?date=${Date.now().toString()}`
+            if (response.data.msg != '') {
+                console.log("Bew Path: ", newPath)
+                setPath(newPath)
+            }
+
+
+
         } catch {
             err => console.log("err upload", err)
         }
@@ -105,8 +101,8 @@ const Profile = (props) => {
         let tk = await AsyncStorage.getItem('token')
         try {
             let id = await AsyncStorage.getItem("id")
-            const response = await upload('POST', 'http://localhost:8888/upload-wall-paper', tk, wall)
-            if (response.status == 200) setWallPath(`http://localhost:8888/wallpaper/${id}.jpg`)
+            const response = await upload('POST', API_URL +  '/upload-wall-paper', tk, wall)
+            if (response.data.msg != '') setWallPath(`${API_URL}/wallpaper/${id}.jpg?date=${Date.now().toString()}`)
 
             else console.log(response.status)
         } catch {
@@ -117,7 +113,7 @@ const Profile = (props) => {
     return (
         <View style={{ height: '100%', width: '100%', position: 'relative', backgroundColor: '#fff' }} >
             <View style={{ height: '30%', backgroundColor: 'gray', borderTopRightRadius: 5, borderTopLeftRadius: 5, margin: 12, position: 'relative' }}>
-                <Image source={{uri:wallPath}} style={{ height: '100%', width: '100%', borderTopRightRadius: 5, borderTopLeftRadius: 5 }} />
+                <Image source={{ uri: wallPath }} style={{ height: '100%', width: '100%', borderTopRightRadius: 5, borderTopLeftRadius: 5 }} />
                 <TouchableOpacity
                     style={{ position: 'absolute', right: 10, bottom: 10, borderRadius: 100, backgroundColor: '#dddddd', padding: 5 }}
                     onPress={() => { setModalVisible(true); setWhichImage('wall') }}
@@ -129,9 +125,9 @@ const Profile = (props) => {
 
             <View
                 style={{
-                    width: '50%',
+                    width: 200,
                     backgroundColor: '#fff',
-                    height: '25.5%',
+                    height: 200,
                     marginLeft: '25%',
                     marginTop: '-27%',
                     borderRadius: 100,
@@ -139,7 +135,7 @@ const Profile = (props) => {
                 }}
             >
 
-                <Image source={{uri:path}} style={{ height: '100%', width: '100%', borderRadius: 100 }} />
+                <Image source={{ uri: path }} style={{ height: '100%', width: '100%', borderRadius: 100 }} />
                 <TouchableOpacity
                     style={{ position: 'absolute', right: 15, bottom: 15, borderRadius: 100, backgroundColor: '#dddddd', padding: 5 }}
                     onPress={() => { setModalVisible(true); setWhichImage('avatar') }}
@@ -214,17 +210,25 @@ const Profile = (props) => {
                 animationType="fadeInUpBig"
                 duration={100}
                 delay={0}
-                containerStyle={{ backgroundColor: 'rgba(37,37, 37, 0.78)', position: 'relative', padding: 0 }}
-                childrenWrapperStyle={{ backgroundColor: '#eee', padding: 0, height: 200, width: '75%', borderRadius: 5 }}
+                containerStyle={{ backgroundColor: 'rgba(37,37, 37, 0.78)', position: 'relative', width: '100%', padding: 0, alignItems: 'center', height: 200 }}
+                childrenWrapperStyle={{ backgroundColor: '#eee', padding: 0, height: 200, width: '65%', borderRadius: 5 }}
                 animationDuration={500}
             >
-                <Button  onPress={()=>{
-                    if (whichImage==='wall')updateWall()
-                    else updateAvatar()
-                }}>OK</Button>
-                <Button
-                    onPress={()=>setConfirm(false)}
-                >Cancel</Button>
+                <View>
+                    <Text style={{ fontSize: 18, fontWeight: 'bold', marginTop: 30, alignSelf: 'center' }} >Save this change?</Text>
+                    <View style={{ flexDirection: 'row', marginTop: 70 }}>
+                        <Button
+                            style={{ marginRight: 15, width: 100 }}
+                            onPress={() => {
+                                if (whichImage === 'wall') updateWall()
+                                else updateAvatar()
+                            }}>OK</Button>
+                        <Button
+                            style={{ width: 100 }}
+                            onPress={() => setConfirm(false)}
+                        >Cancel</Button>
+                    </View>
+                </View>
             </Overlay>
         </View>
 

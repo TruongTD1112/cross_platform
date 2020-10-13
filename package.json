@@ -27,6 +27,7 @@
     "react-native-cli": "^2.0.1",
     "react-native-date-picker": "^3.2.3",
     "react-native-device-info": "^6.0.2",
+    "react-native-dotenv": "^2.4.1",
     "react-native-elements": "^2.3.2",
     "react-native-gesture-handler": "^1.8.0",
     "react-native-image-crop-picker": "^0.35.0",

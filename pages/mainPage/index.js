@@ -15,7 +15,9 @@ import WatchPage from './watchPage';
 const Tab = createMaterialTopTabNavigator()
 
 const mainPage = props => {
-    
+    const createPost = ()=>{
+        props.navigation.navigate("newPost")
+    }
     const logout = ()=>{
         props.navigation.navigate("IndexPage")
     }
@@ -25,9 +27,6 @@ const mainPage = props => {
     }
     const icons = ["home", "home-group", "heart-multiple-outline", "view-compact", "newspaper-variant-multiple", "menu"]
     return (
-        
-        
-        
         <Tab.Navigator 
             tabBar={props => <TabBar {...props} icons={icons}  />}
             initialRouteName="newsFeed" 
@@ -35,15 +34,12 @@ const mainPage = props => {
             tabBarOptions={{
                 showIcon : true,
                 showLabel: false,
-                // tabStyle:{
-                //     po
-                // }
             }}
             backBehavior={"initialRoute"}
             
         >
             
-            <Tab.Screen  icon="home" name="newsFeed" children={()=><NewsFeed/>}/>
+            <Tab.Screen  icon="home" name="newsFeed" children={()=><NewsFeed createPost={createPost} />}/>
             <Tab.Screen name="marketPlace" children={()=><Marketplace />}/>
             <Tab.Screen name="watchPage" children={()=><WatchPage/>}/>
             <Tab.Screen name="datingPage" children={()=><DatingPage/>}/>

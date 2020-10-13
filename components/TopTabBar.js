@@ -78,7 +78,7 @@ const MyTabBar = ({ state, descriptors, navigation, icons }) => {
             </Animated.View>
 
 
-            <View style={{ flexDirection: 'row', backgroundColor: '#fff', justifyContent: 'space-around', alignSelf: 'stretch', zIndex: 1000 }}>
+            <View style={{ flexDirection: 'row', backgroundColor: '#fff', justifyContent: 'space-around', alignSelf: 'stretch', borderBottomColor: "#ccc", borderBottomWidth:1}}>
                 {state.routes.map((route, index) => {
                     const { options } = descriptors[route.key];
 

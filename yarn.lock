@@ -2668,6 +2668,11 @@ domutils@^1.7.0:
     dom-serializer "0"
     domelementtype "1"
 
+dotenv@^8.0.0:
+  version "8.2.0"
+  resolved "https://registry.yarnpkg.com/dotenv/-/dotenv-8.2.0.tgz#97e619259ada750eea3e4ea3e26bceea5424b16a"
+  integrity sha512-8sJ78ElpbDJBHNeBzUbUVLsqKdccaa/BXF1uPTw3GrvQTBgrQrtObr2mUrE38vzYd8cEv+m/JBfDLioYcfXoaw==
+
 ecc-jsbn@~0.1.1:
   version "0.1.2"
   resolved "https://registry.yarnpkg.com/ecc-jsbn/-/ecc-jsbn-0.1.2.tgz#3a83a904e54353287874c564b7549386849a98c9"
@@ -6113,6 +6118,13 @@ react-native-device-info@^6.0.2:
   version "6.0.2"
   resolved "https://registry.yarnpkg.com/react-native-device-info/-/react-native-device-info-6.0.2.tgz#03317893bd6336b9ed2fe7a78d424737a441553f"
   integrity sha512-Kx6ozWKkiPPvRhZDIL5jQ8zEZLlRT8hTovTaV+NgDc0tM+slBEnuEIgn0FXArHudO0qq2r+VDs4pUwMf6csGPg==
+
+react-native-dotenv@^2.4.1:
+  version "2.4.1"
+  resolved "https://registry.yarnpkg.com/react-native-dotenv/-/react-native-dotenv-2.4.1.tgz#f15fa3e4a8821a92a4297ca0ef416d84409d6a32"
+  integrity sha512-pt+769G395XNPiKtpLDXZC0+yCpl+DXyf7Qua3hTYKX/Kw/xA1heT5NWGSWvWIgYZ8b8mE1OjZYWctmIGIlAHg==
+  dependencies:
+    dotenv "^8.0.0"
 
 react-native-elements@^2.3.2:
   version "2.3.2"

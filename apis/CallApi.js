@@ -1,10 +1,10 @@
 import axios from 'axios'
 import { stringify } from 'querystring'
-
+import {API_URL} from './Constance'
 export const CallApi = async (path, method, header, body, ObjectCancelAxios = {}) => {
     const CancelToken = axios.CancelToken
     
-    const serverDomain = 'http://localhost:8888'
+    const serverDomain = API_URL
     try {
         return axios({
             url: serverDomain + path,
