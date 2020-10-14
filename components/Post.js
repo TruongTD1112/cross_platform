@@ -11,7 +11,7 @@ const Post = (props) => {
             <View style={{ flexDirection: 'row', paddingTop: 5, paddingLeft: 10 }} >
                 <Image source={require('../pages/Profile/girl.jpg')} style={{ width: 40, height: 40, borderRadius: 20 }} />
                 <View style={{ marginLeft: 10 }} >
-                    <Text style={{ fontWeight: 'bold', fontSize: 16 }}>Hue xinh Gai</Text>
+                    <Text style={{ fontWeight: 'bold', fontSize: 16 }}>I am Kiên :D</Text>
                     <Text style={{ color: "#888", fontSize: 12 }} >12h</Text>
                 </View>
             </View>
