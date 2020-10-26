@@ -3,27 +3,26 @@ import { View, Text, StyleSheet, Image } from 'react-native'
 import { Divider } from 'react-native-paper'
 import Icon from 'react-native-vector-icons/AntDesign'
 import Icon1 from 'react-native-vector-icons/MaterialCommunityIcons'
-
+import ImageView from './ImageView'
 const Post = (props) => {
+    const {post} = props
     return (
         <View style={styles.container}>
             {/* title */}
             <View style={{ flexDirection: 'row', paddingTop: 5, paddingLeft: 10 }} >
                 <Image source={require('../pages/Profile/girl.jpg')} style={{ width: 40, height: 40, borderRadius: 20 }} />
                 <View style={{ marginLeft: 10 }} >
-                    <Text style={{ fontWeight: 'bold', fontSize: 16 }}>Hue xinh Gai</Text>
+                    <Text style={{ fontWeight: 'bold', fontSize: 16 }}>{post.author.name}</Text>
                     <Text style={{ color: "#888", fontSize: 12 }} >12h</Text>
                 </View>
             </View>
 
             {/* textcontent */}
             <View style={{paddingHorizontal: 10, paddingTop: 10, paddingBottom: 5}}>
-                <Text style={{fontSize: 15}}  >ksvhviurehgierhgerhgieru</Text>
+                <Text style={{fontSize: 15}}  >{post.content}</Text>
             </View>
             {/* image/video */}
-            <View>
-                <Image source={require('../pages/Profile/girl.jpg')} style={{ width: '100%', height: 500 }} />
-            </View>
+            <ImageView images={post.images}/>
             <View style={{ height: 30, flexDirection: 'row', padding: 0 }}>
                 <View style={{ width: '59%', flexDirection: 'row',height:43, alignItems:'center' }}>
                     <View style={{ width: 20, height: 20, backgroundColor: "#1a73e8", borderRadius: 15, alignItems: 'center', justifyContent: 'center' ,marginLeft: 10 }}>

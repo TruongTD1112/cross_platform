@@ -2,6 +2,7 @@ import React, { useState, useRef, useEffect } from 'react';
 import { View, Text, TouchableOpacity, Animated, Easing } from 'react-native';
 import SearchTab from './searchTab'
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons'
+import Icon1 from 'react-native-vector-icons/Ionicons'
 
 const MyTabBar = ({ state, descriptors, navigation, icons }) => {
 
@@ -120,8 +121,8 @@ const MyTabBar = ({ state, descriptors, navigation, icons }) => {
                             style={{ paddingVertical: 10, flexGrow: 2, alignItems: 'center', borderBottomColor: isFocused ? "#1a73e8" : "#fff", borderBottomWidth: 2 }}
                             key={index}
                         >
-
-                            <Icon name={icons[index]} size={27} color={isFocused ? "#1a73e8" : "#333"} />
+                            { index ===4  && <Icon1 name={"notifications"} size={27} color={isFocused ? "#1a73e8" : "#333"} />}
+                            { index !==4 && <Icon name={icons[index]} size={27} color={isFocused ? "#1a73e8" : "#333"} />}
                         </TouchableOpacity>
                     );
                 })}

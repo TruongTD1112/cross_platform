@@ -8,7 +8,7 @@ import Overlay from 'react-native-modal-overlay/index'
 import Button from '../../components/Button'
 import { Divider } from 'react-native-paper'
 import {API_URL} from '../../apis/Constance'
-import { from } from 'form-data'
+
 
 const Profile = (props) => {
 
@@ -24,7 +24,7 @@ const Profile = (props) => {
     const setName = () =>{
         // if (!mounted) return
         console.log("in eefffffffffff", path)
-        AsyncStorage.getItem('Name').then(value => setUserName(name))
+        AsyncStorage.getItem('Name').then(value => setUserName(value))
         AsyncStorage.getItem('id').then(id => {
             setPath(`${API_URL}/avatar/${id}.jpg?date=${Date.now().toString()}`)
             setWallPath(`${API_URL}/wallpaper/${id}.jpg?date=${Date.now().toString()}`)

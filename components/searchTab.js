@@ -12,9 +12,9 @@ const SearchTab = props => {
             <View style={{ flexDirection: 'row', backgroundColor: '#ffffff', paddingVertical: 6, position: 'relative' }}>
                 <Text style={{ color: "#1a73e8", fontSize: 26, paddingStart: 15, fontWeight: 'bold' }}> facebook  </Text>
                 <View style={{ flexDirection: 'row', justifyContent: 'flex-end', alignContent: 'flex-end', position: 'absolute', right: 5, top: 5, height: 38 }}>
-                    <View style={{ backgroundColor: '#eeeeee', alignItems: 'baseline', justifyContent: 'center', borderRadius: 25, paddingHorizontal: 9, marginEnd: 5 }}>
+                    <TouchableOpacity onPress={global.gotoSearch} style={{ backgroundColor: '#eeeeee', alignItems: 'baseline', justifyContent: 'center', borderRadius: 25, paddingHorizontal: 9, marginEnd: 5 }}>
                         <Icon name="search" color="black" size={20} />
-                    </View>
+                    </TouchableOpacity>
                     <View style={{ backgroundColor: '#eeeeee', alignItems: 'baseline', justifyContent: 'center', borderRadius: 25, paddingHorizontal: 9, marginEnd: 5 }}>
                         <Icon1 name="facebook-messenger" color="black" size={20} />
                     </View>

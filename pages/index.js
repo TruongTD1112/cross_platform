@@ -5,9 +5,10 @@ import mainPage from './mainPage'
 import IndexPage from './indexPage'
 import Profile from './Profile'
 import NewPost from './createPost'
+import Search from './search'
 import {NavigationContainer} from '@react-navigation/native'
 import {createStackNavigator} from '@react-navigation/stack'
-
+import {TextInput, View} from 'react-native'
 
 import 'react-native-gesture-handler';
 
@@ -36,6 +37,19 @@ const App = (props) => {
             <Stack.Screen options={{headerShown:false}} name="mainPage" component={mainPage} />
             <Stack.Screen options={{headerShown:false}} name="newPost" component={NewPost}/>
             <Stack.Screen  name="Profile" component={Profile} />
+            <Stack.Screen  options={{
+              headerRight: ()=>(
+                <View style={{width: 350, justifyContent:'center', paddingRight: 10}} >
+                  <TextInput  
+                    autoCompleteType="off"
+                    autoCorrect={false}
+                    spellCheck={false}
+                    underlineColorAndroid="#ddd"
+                    style={{ backgroundColor: "#ddd", width: '100%', height: '80%', borderRadius: 20, paddingHorizontal: 10}}  />
+                </View>
+              ),
+              headerTitle: ''
+            }}   name="Search" component={Search} />
           </Stack.Navigator>
           
         </NavigationContainer>

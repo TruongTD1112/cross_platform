@@ -16,6 +16,7 @@ const NewPost = (props) => {
         console.log("PSSSSSSSSSSSSOSOSOS")
         await global.post()
     }
+    
     return (
         <>
             <Stack.Navigator initialRouteName="Create Post">
@@ -25,7 +26,7 @@ const NewPost = (props) => {
                         headerTitleStyle: { fontSize: 16 },
                         headerStyle: { shadowOffset: 0 }
                     }}
-                    children={(props) => <CreatePost {...props} validToPost={validToPost} />} />
+                    children={(props) => <CreatePost {...props} validToPost={validToPost}  />} />
                 <Stack.Screen options={{ headerTitle: "Your feeling - Acitvities", headerTitleStyle: { fontSize: 16 } }} name="Feeling" children={(props) => <Feeling {...props} />} />
 
             </Stack.Navigator>

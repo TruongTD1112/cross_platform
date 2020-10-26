@@ -24,6 +24,7 @@ const CreatePost = (props) => {
             multiple: true,
             maxFiles: 4,
             mediaType: 'photo',
+            compressImageQuality: 0.2
         }).then(image => {
             setPhotoes(image)
         }).catch(err => console.log(err))
@@ -66,6 +67,9 @@ const CreatePost = (props) => {
             setPhotoes([])
             console.log(response.status)
             console.log(response.newPost)
+            props.navigation.navigate('mainPage', {
+                time: Date.now().toString()
+            })
         }catch{
             err => console.log(err)
         }

@@ -25,4 +25,4 @@ export const CallApi = async (path, method, header, body, ObjectCancelAxios = {}
 }
 
 export const post = (path, body, header) => CallApi(path, 'POST', header, body)
-
+export const get = (path, header) => CallApi(path, 'GET', header, {})
