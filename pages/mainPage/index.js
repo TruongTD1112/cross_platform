@@ -35,13 +35,20 @@ const mainPage = props => {
     const goProfile  =()=>{
         props.navigation.navigate("Profile")
     }
-
+    global.goProfile = goProfile
+    const goUserProfile = (userId, name) => {
+        props.navigation.navigate("UserProfile",{
+            userId: userId,
+            name: name
+        })
+    }
+    global.goUserProfile = goUserProfile
     const gotoSearch = () => {
         props.navigation.navigate("Search")
     }
     global.gotoSearch = gotoSearch
    
-    const icons = ["home", "account-group", "heart-half-full", "view-compact", "newspaper-variant-multiple", "menu"]
+    const icons = ["home", "account-group", "view-compact", "heart-half-full", "menu"]
     return (
         <Tab.Navigator 
             tabBar={props => <TabBar {...props} icons={icons}  />}
@@ -58,7 +65,7 @@ const mainPage = props => {
             <Tab.Screen  icon="home" name="newsFeed" children={()=><NewsFeed createPost={createPost} time={time} />}/>
             <Tab.Screen name="marketPlace" children={()=><Marketplace />}/>
             <Tab.Screen name="watchPage" children={()=><WatchPage/>}/>
-            <Tab.Screen name="datingPage" children={()=><DatingPage/>}/>
+           
             <Tab.Screen name="notifyPage" children={()=><NotifyPage/>}/>
             <Tab.Screen name="menu" children={()=><Menu logout={logout} goProfile={goProfile}/>} />
         </Tab.Navigator>

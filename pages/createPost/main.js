@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from 'react'
-import { View, Text, TouchableOpacity, Image, TextInput, FlatList, StyleSheet } from 'react-native'
-
+import React, { useState, useEffect, useCallback } from 'react'
+import { View, Text, TouchableOpacity, Image, TextInput, StyleSheet } from 'react-native'
+import {Input} from 'react-native-elements'
 import 'react-native-gesture-handler';
 
 import AsyncStorage from '@react-native-community/async-storage';
@@ -9,13 +9,14 @@ import Icon from 'react-native-vector-icons/MaterialCommunityIcons'
 import Icon1 from 'react-native-vector-icons/MaterialIcons'
 import {API_URL} from '../../apis/Constance'
 import {postNew} from '../../apis/Upload'
+import ImageView from '../../components/ImageViewWhenPost'
 
 const CreatePost = (props) => {
 
     const [id, setId] = useState('no')
     const [name, setName] = useState('')
     const [content, setContent] = useState('')
-    const [photoes, setPhotoes] = useState([])
+    const [images, setImages] = useState([])
     const [feeling, setFeeling] = useState('')
     const [activity, setActivity] = useState('')
 
@@ -26,13 +27,16 @@ const CreatePost = (props) => {
             mediaType: 'photo',
             compressImageQuality: 0.2
         }).then(image => {
-            setPhotoes(image)
+            setImages(image)
         }).catch(err => console.log(err))
     }
 
     const selectFeeling = () => {
         props.navigation.navigate("Feeling")
     }
+    const callBackSetContent =  useCallback((text)=>{
+        setContent(text)
+    },[content])
     useEffect(() => {
         if (props.route.params?.feeling) {
             setFeeling(' is ' + props.route.params.feeling)
@@ -50,9 +54,9 @@ const CreatePost = (props) => {
     }, [])
 
     useEffect(() => {
-        if (content.length === 0 && photoes.length === 0) props.validToPost(false)
+        if (content.length === 0 && images.length === 0) props.validToPost(false)
         else props.validToPost(true)
-    }, [photoes, content])
+    }, [images, content])
 
     global.post = async() => {
         try{
@@ -60,11 +64,11 @@ const CreatePost = (props) => {
             const id = await AsyncStorage.getItem('id')
             const response = await postNew(token, {
                 content: content,
-                photoes: photoes,
+                photoes: images,
                 userId: id,
             })
             setContent('')
-            setPhotoes([])
+            setImages([])
             console.log(response.status)
             console.log(response.newPost)
             props.navigation.navigate('mainPage', {
@@ -87,30 +91,29 @@ const CreatePost = (props) => {
                 </View>
             </View>
             <View>
-                <TextInput
+                <Input
 
                     multiline={true}
                     onChangeText={text => {
-                        setContent(text);
+                        callBackSetContent(text)
                     }
                     }
                     value={content}
 
-                    underlineColorAndroid="#fff"
+                    
                     placeholder="What's on your mind?"
                     style={{
                         width: '100%',
-                        height: photoes == [] ? 300 : 50,
+                    
                         padding: 10,
                         fontSize: 21,
-                        textAlignVertical: 'top'
+                        textAlignVertical:'top',
+                        
                     }} />
 
 
             </View>
-            <View style={{ flexWrap: 'wrap', height: 300, alignItems: 'center' }}>
-                {photoes.map((item, index) => (<Image source={{ uri: item.path }} resizeMode="center" style={{ width: '50%', height: 145, borderColor: '#fff', borderWidth: 2 }} key={index} />))}
-            </View>
+            <ImageView  images={images}/>
             <View>
                 <TouchableOpacity
                     onPress={selectPhotoes}

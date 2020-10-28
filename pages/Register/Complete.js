@@ -18,10 +18,11 @@ const Complete = props => {
         if (response.status == 200){
             console.log("OK")
             console.log(response.data.name)
+            global.userId = response.data.id
             await AsyncStorage.clear()
             await AsyncStorage.setItem('token', response.data.token)
             await AsyncStorage.setItem('refreshToken', response.data.refreshToken)
-            await AsyncStorage.setItem('name', response.data.name)        
+            await AsyncStorage.setItem('Name', response.data.name)        
             props.navigation.navigate("mainPage")
         }else{
             setWarning(response.data.msg)

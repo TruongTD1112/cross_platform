@@ -20,10 +20,8 @@ const Profile = (props) => {
     const [modalVisible, setModalVisible] = useState(false)
     const [userName, setUserName] = useState('')
     const [confirm, setConfirm] = useState(false)
-
+    const x = 'aaaaa'
     const setName = () =>{
-        // if (!mounted) return
-        console.log("in eefffffffffff", path)
         AsyncStorage.getItem('Name').then(value => setUserName(value))
         AsyncStorage.getItem('id').then(id => {
             setPath(`${API_URL}/avatar/${id}.jpg?date=${Date.now().toString()}`)
@@ -31,8 +29,10 @@ const Profile = (props) => {
         })
     }
     useEffect(() => {        
-        setName()
-    }, [])
+        let mounted = true
+        if (mounted)  setName()
+        return ()=> mounted = false
+    }, [x])
 
     const openGallery = (which) => {
         ImagePicker.openPicker({
@@ -88,15 +88,12 @@ const Profile = (props) => {
                 console.log("Bew Path: ", newPath)
                 setPath(newPath)
             }
-
-
-
         } catch {
             err => console.log("err upload", err)
         }
         setConfirm(false)
-
     }
+
     const updateWall = async () => {
         let tk = await AsyncStorage.getItem('token')
         try {
@@ -110,6 +107,7 @@ const Profile = (props) => {
         }
         setConfirm(false)
     }
+
     return (
         <View style={{ height: '100%', width: '100%', position: 'relative', backgroundColor: '#fff' }} >
             <View style={{ height: '30%', backgroundColor: 'gray', borderTopRightRadius: 5, borderTopLeftRadius: 5, margin: 12, position: 'relative' }}>

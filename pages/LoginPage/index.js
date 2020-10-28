@@ -21,6 +21,7 @@ const LoginPage = (props) => {
                 await AsyncStorage.setItem('Name', userName)
                 await AsyncStorage.setItem('phone', phone)
                 await AsyncStorage.setItem('id', response.data.id)
+                global.userId = response.data.id
             } catch{err => console.log(err)}
             
             props.navigation.navigate("mainPage")

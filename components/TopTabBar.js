@@ -121,8 +121,8 @@ const MyTabBar = ({ state, descriptors, navigation, icons }) => {
                             style={{ paddingVertical: 10, flexGrow: 2, alignItems: 'center', borderBottomColor: isFocused ? "#1a73e8" : "#fff", borderBottomWidth: 2 }}
                             key={index}
                         >
-                            { index ===4  && <Icon1 name={"notifications"} size={27} color={isFocused ? "#1a73e8" : "#333"} />}
-                            { index !==4 && <Icon name={icons[index]} size={27} color={isFocused ? "#1a73e8" : "#333"} />}
+                            { index ===3  && <Icon1 name={"notifications"} size={27} color={isFocused ? "#1a73e8" : "#777"} />}
+                            { index !==3 && <Icon name={icons[index]} size={27} color={isFocused ? "#1a73e8" : "#777"} />}
                         </TouchableOpacity>
                     );
                 })}
