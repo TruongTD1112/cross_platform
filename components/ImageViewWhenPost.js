@@ -1,7 +1,15 @@
-import React from 'react'
+import React, { useState, useEffect, useRef } from 'react'
 import { View, Text, StyleSheet, Image } from 'react-native'
-
-
+import { TouchableOpacity, TouchableHighlight } from 'react-native-gesture-handler'
+import { Divider } from 'react-native-paper'
+import Icon from 'react-native-vector-icons/AntDesign'
+import Icon1 from 'react-native-vector-icons/MaterialCommunityIcons'
+import ImageView from './ImageView'
+import AsyncStorage from '@react-native-community/async-storage';
+import { likePost, disLikePost } from '../apis/getPost'
+import { API_URL } from '../apis/Constance'
+import { getTime } from '../utils/time'
+import RBSheet from 'react-native-raw-bottom-sheet'
 const ImageViewWhenPost = (props) => {
     const { images } = props
 
