@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { View, Text, Image, TouchableOpacity, StyleSheet } from 'react-native'
+import { View, Text, Image, TouchableOpacity, StyleSheet, ImageEditor } from 'react-native'
 import ImagePicker from 'react-native-image-crop-picker'
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons'
 import { upload } from '../../apis/Upload'
@@ -8,7 +8,7 @@ import Overlay from 'react-native-modal-overlay/index'
 import Button from '../../components/Button'
 import { Divider } from 'react-native-paper'
 import {API_URL} from '../../apis/Constance'
-
+import Post from '../../components/Post'
 
 const Profile = (props) => {
 
@@ -228,11 +228,59 @@ const Profile = (props) => {
                     </View>
                 </View>
             </Overlay>
+            <Description/>
+            <Biography/>
         </View>
 
     )
 }
 export default Profile
+
+
+const Description = () => {
+    const [description, setDescription] = useState('');
+    const setDes = () =>{
+        AsyncStorage.getItem('Description').then(value => setDescription(value))
+    }
+
+    return(
+        <View style = {{marginTop : 20, justifyContent: 'center', padding: 20, color : 'black'}}>
+            <Text>{description}</Text>
+        </View>        
+    )
+}
+
+const Biography = () => {
+    const [biography, setBiography] = useState('');
+    const [homeTown, setHometown] = useState('');
+    const [education, setEducation] = useState('');
+
+    const setDes = () =>{
+        AsyncStorage.getItem('biography').then(value => setBiography(value));
+        setHometown(biography.homeTown);
+        setEducation(biography.setEducation);
+    }
+    return (
+        <View>
+            <View styles = {{flexDirection :' row'}}>
+                <Image source = {{uri : "hgfhgfg"}}/>
+                <Image style = {{padding : 10}}/>
+            </View>
+
+            <View styles = {{flexDirection : 'row'}}>
+                <Image source = {{uri : "hgfhgfg"}}/>
+                <Text style = {{padding : 10}}>kkkk</Text>
+            </View>
+        </View>
+        
+    )
+}
+
+const TimeLine = () => {
+    for(var i= 1; i<= 5; i++){
+        Post();
+    }
+}
 
 const styles = StyleSheet.create({
 

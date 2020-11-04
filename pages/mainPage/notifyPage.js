@@ -9,7 +9,6 @@ import Icon2 from 'react-native-vector-icons/FontAwesome5'
 import { API_URL } from '../../apis/Constance'
 
 const notifyPage = (props) => {
-
     return (
         <View style={{ height: '100%', backgroundColor: '#f8f8ff' }}>
             <View style={{

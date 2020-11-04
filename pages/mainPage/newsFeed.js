@@ -80,8 +80,6 @@ const newsFeed = (props) => {
                     <Post post={post} key={index} />
                 ))}
             </ScrollView>
-
-
         </View>
     )
 }
