@@ -1,15 +1,15 @@
-import React, { useState, useEffect } from 'react'
-import { View, Text, Image, TouchableOpacity, StyleSheet, ImageEditor } from 'react-native'
+import React, { useState, useEffect, useRef, version } from 'react'
+import { View, Text, Image, TouchableOpacity, StyleSheet } from 'react-native'
 import ImagePicker from 'react-native-image-crop-picker'
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons'
 import { upload } from '../../apis/Upload'
 import AsyncStorage from '@react-native-community/async-storage'
-import Overlay from 'react-native-modal-overlay/index'
 import Button from '../../components/Button'
 import { Divider } from 'react-native-paper'
-import {API_URL} from '../../apis/Constance'
-import Post from '../../components/Post'
-
+import { API_URL } from '../../apis/Constance'
+import RBSheet from 'react-native-raw-bottom-sheet'
+import Modal from 'react-native-modal'
+import newsFeed from '../mainPage/newsFeed';
 const Profile = (props) => {
 
     const [avatar, setAvatar] = useState('')
@@ -20,18 +20,21 @@ const Profile = (props) => {
     const [modalVisible, setModalVisible] = useState(false)
     const [userName, setUserName] = useState('')
     const [confirm, setConfirm] = useState(false)
+    const refRBSheet = useRef()
+
+
     const x = 'aaaaa'
-    const setName = () =>{
+    const setName = () => {
         AsyncStorage.getItem('Name').then(value => setUserName(value))
         AsyncStorage.getItem('id').then(id => {
             setPath(`${API_URL}/avatar/${id}.jpg?date=${Date.now().toString()}`)
             setWallPath(`${API_URL}/wallpaper/${id}.jpg?date=${Date.now().toString()}`)
         })
     }
-    useEffect(() => {        
+    useEffect(() => {
         let mounted = true
-        if (mounted)  setName()
-        return ()=> mounted = false
+        if (mounted) setName()
+        return () => mounted = false
     }, [x])
 
     const openGallery = (which) => {
@@ -85,20 +88,20 @@ const Profile = (props) => {
             // console.log(response.data.msg)
             let newPath = `${API_URL}/avatar/${id}.jpg?date=${Date.now().toString()}`
             if (response.data.msg != '') {
-                console.log("Bew Path: ", newPath)
                 setPath(newPath)
             }
         } catch {
             err => console.log("err upload", err)
         }
         setConfirm(false)
+        refRBSheet.current.close()
     }
 
     const updateWall = async () => {
         let tk = await AsyncStorage.getItem('token')
         try {
             let id = await AsyncStorage.getItem("id")
-            const response = await upload('POST', API_URL +  '/upload-wall-paper', tk, wall)
+            const response = await upload('POST', API_URL + '/upload-wall-paper', tk, wall)
             if (response.data.msg != '') setWallPath(`${API_URL}/wallpaper/${id}.jpg?date=${Date.now().toString()}`)
 
             else console.log(response.status)
@@ -106,6 +109,7 @@ const Profile = (props) => {
             err => console.log("err upload", err)
         }
         setConfirm(false)
+        refRBSheet.current.close()
     }
 
     return (
@@ -114,7 +118,10 @@ const Profile = (props) => {
                 <Image source={{ uri: wallPath }} style={{ height: '100%', width: '100%', borderTopRightRadius: 5, borderTopLeftRadius: 5 }} />
                 <TouchableOpacity
                     style={{ position: 'absolute', right: 10, bottom: 10, borderRadius: 100, backgroundColor: '#dddddd', padding: 5 }}
-                    onPress={() => { setModalVisible(true); setWhichImage('wall') }}
+                    onPress={() => { 
+                        refRBSheet.current.open()
+                        setWhichImage('wall') 
+                    }}
                 >
                     <Icon name="camera" color="black" size={20} />
                 </TouchableOpacity>
@@ -136,7 +143,10 @@ const Profile = (props) => {
                 <Image source={{ uri: path }} style={{ height: '100%', width: '100%', borderRadius: 100 }} />
                 <TouchableOpacity
                     style={{ position: 'absolute', right: 15, bottom: 15, borderRadius: 100, backgroundColor: '#dddddd', padding: 5 }}
-                    onPress={() => { setModalVisible(true); setWhichImage('avatar') }}
+                    onPress={() => {
+                        refRBSheet.current.open()
+                        setWhichImage('avatar') 
+                    }}
                 >
                     <Icon name="camera" color="#1a73e8" size={25} />
                 </TouchableOpacity>
@@ -146,18 +156,35 @@ const Profile = (props) => {
                 <Text style={{ fontSize: 26, fontWeight: 'bold' }}>{userName}</Text>
 
             </View>
+            
 
-            <Overlay
 
-                visible={modalVisible}
-                onClose={() => setModalVisible(false)}
-                closeOnTouchOutside
-                animationType="fadeInUpBig"
-                duration={100}
-                delay={0}
-                containerStyle={{ backgroundColor: 'rgba(37,37, 37, 0.78)', position: 'relative', padding: 0 }}
-                childrenWrapperStyle={{ backgroundColor: '#eee', padding: 0, position: 'absolute', bottom: 0, width: '100%', borderTopLeftRadius: 25, borderTopRightRadius: 25, }}
-                animationDuration={500}
+            <View flexDirection="row" style={{ alignSelf: 'center' }}>
+                <Button style={{ width: 330 }} icon={<Icon name="plus-circle" color="white" size={20} style={{ paddingTop: 2 }} />} >Add new</Button>
+                <Button style={{ width: 50, backgroundColor: "#cfcfcf", marginLeft: 10 }} icon={<Icon name="dots-horizontal" color="black" size={20} style={{ paddingTop: 2 }} />}  ></Button>
+            </View>
+            <Divider style={{ marginTop: 15, width: '95%', alignSelf: 'center', height: 1, backgroundColor: '#ccc' }} />
+
+            <RBSheet
+                ref={refRBSheet}
+                closeOnDragDown={true}
+                closeOnPressMask={true}
+                closeOnPressBack={true}
+                height={160}
+                customStyles={{
+                    wrapper: {
+                        backgroundColor: "rgba(0,0,0,0.5)",
+                       
+                    },
+                    draggableIcon: {
+                        backgroundColor: "#1a73e8"
+                    },
+                    container: {
+                        // height: 180,
+                        borderTopLeftRadius: 25,
+                        borderTopRightRadius: 25
+                    }
+                }}
             >
                 <View style={styles.modalView} >
                     <TouchableOpacity
@@ -192,29 +219,24 @@ const Profile = (props) => {
 
 
                 </View>
-            </Overlay>
+            </RBSheet>
 
-
-            <View flexDirection="row" style={{ alignSelf: 'center' }}>
-                <Button style={{ width: 330 }} icon={<Icon name="plus-circle" color="white" size={20} style={{ paddingTop: 2 }} />} >Add new</Button>
-                <Button style={{ width: 50, backgroundColor: "#cfcfcf", marginLeft: 10 }} icon={<Icon name="dots-horizontal" color="black" size={20} style={{ paddingTop: 2 }} />}  ></Button>
-            </View>
-            <Divider style={{ marginTop: 15, width: '95%', alignSelf: 'center', height: 1, backgroundColor: '#ccc' }} />
-
-            <Overlay
-                visible={confirm}
-                onClose={() => setConfirm(false)}
-                closeOnTouchOutside
-                animationType="fadeInUpBig"
-                duration={100}
-                delay={0}
-                containerStyle={{ backgroundColor: 'rgba(37,37, 37, 0.78)', position: 'relative', width: '100%', padding: 0, alignItems: 'center', height: 200 }}
-                childrenWrapperStyle={{ backgroundColor: '#eee', padding: 0, height: 200, width: '65%', borderRadius: 5 }}
-                animationDuration={500}
+            <Modal
+                isVisible={confirm}
+                onBackButtonPress={()=>setConfirm(false)}
+                onBackdropPress={()=>setConfirm(false)}
+                swipeDirection="left"
+                
+                style={{
+                    backgroundColor: '#fff',
+                    maxHeight: 250,
+                    marginTop: '65%',
+                    
+                }}
             >
-                <View>
-                    <Text style={{ fontSize: 18, fontWeight: 'bold', marginTop: 30, alignSelf: 'center' }} >Save this change?</Text>
-                    <View style={{ flexDirection: 'row', marginTop: 70 }}>
+            <View  >
+                    <Text style={{ fontSize: 18, fontWeight: 'bold', marginTop: 30, alignSelf: 'center',  }} >Save this change?</Text>
+                    <View style={{ flexDirection: 'row', marginTop: 70, justifyContent: 'space-around'  }}>
                         <Button
                             style={{ marginRight: 15, width: 100 }}
                             onPress={() => {
@@ -222,66 +244,66 @@ const Profile = (props) => {
                                 else updateAvatar()
                             }}>OK</Button>
                         <Button
-                            style={{ width: 100 }}
+                            style={{ width: 100}}
                             onPress={() => setConfirm(false)}
                         >Cancel</Button>
                     </View>
                 </View>
-            </Overlay>
+            </Modal>
+
             <Description/>
-            <Biography/>
+            
+            
         </View>
 
     )
 }
 export default Profile
-
-
-const Description = () => {
-    const [description, setDescription] = useState('');
-    const setDes = () =>{
-        AsyncStorage.getItem('Description').then(value => setDescription(value))
-    }
-
+const Description = (props) => {
     return(
-        <View style = {{marginTop : 20, justifyContent: 'center', padding: 20, color : 'black'}}>
-            <Text>{description}</Text>
-        </View>        
-    )
-}
-
-const Biography = () => {
-    const [biography, setBiography] = useState('');
-    const [homeTown, setHometown] = useState('');
-    const [education, setEducation] = useState('');
-
-    const setDes = () =>{
-        AsyncStorage.getItem('biography').then(value => setBiography(value));
-        setHometown(biography.homeTown);
-        setEducation(biography.setEducation);
-    }
-    return (
-        <View>
-            <View styles = {{flexDirection :' row'}}>
-                <Image source = {{uri : "hgfhgfg"}}/>
-                <Image style = {{padding : 10}}/>
+        <View style = {{fontSize : 30}}>
+            <Text>{"\n"}</Text>
+            <View style = {{flexDirection : 'row', paddingBottom : 10}}>
+                <Icon name="home" color="gray" style = {{paddingTop : 5}} size={20} />
+                <Text style ={{paddingLeft : 5}}>Đến từ <B>Hà Nội</B></Text>
             </View>
+            <View style = {{flexDirection : 'row', paddingBottom : 10}}>
+                <Icon name="home" color="gray" size={20} style = {{paddingTop : 5}} />
+                <Text style ={{paddingLeft : 5}}>Làm việc tại đại <B>Đại Học Bách Khoa Hà Nội</B></Text>
+            </View>
+            <View style = {{flexDirection : 'row', paddingBottom : 10}}>
+                <Icon name="home" color="gray" size={20} style = {{paddingTop : 5}} />
+                <Text style ={{paddingLeft : 5}}>Đang sinh sống tại <B>Hà Nội</B></Text>
+            </View>
+            <View style = {{flexDirection : 'row', paddingBottom : 10}}>
+                <Icon name="clock" color="gray" size={20} style = {{paddingTop : 5}} />
+                <Text style ={{paddingLeft : 5}}>Tham gia từ ngày <B>11/12</B></Text>
+            </View>
+            <View>
+            <TouchableOpacity
+                    onPress={() => props.navigation.navigate('Register')}
+                    style={{
+                        backgroundColor: "#ccdeffff",
+                        borderRadius: 10,
+                        paddingVertical: 5,
+                        paddingHorizontal: 12,
+                        width: '90%',
+                        alignSelf: 'center',
+                        marginBottom: 20,}}
+            >   
+                    <Text style={{
+                        fontSize: 14,
+                        color: "#3360ff",
+                        alignSelf: "center",
+                        fontWeight: 'bold'
+                        }} >
 
-            <View styles = {{flexDirection : 'row'}}>
-                <Image source = {{uri : "hgfhgfg"}}/>
-                <Text style = {{padding : 10}}>kkkk</Text>
+                        Edit Public Details</Text>
+                </TouchableOpacity>
             </View>
         </View>
-        
     )
-}
-
-const TimeLine = () => {
-    for(var i= 1; i<= 5; i++){
-        Post();
-    }
-}
-
+};
 const styles = StyleSheet.create({
 
     modalView: {
@@ -316,3 +338,4 @@ const styles = StyleSheet.create({
         textAlign: "center"
     }
 });
+const B = (props) => <Text style={{fontWeight: 'bold'}}>{props.children}</Text>

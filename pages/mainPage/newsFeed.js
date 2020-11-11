@@ -6,7 +6,7 @@ import SearchTab from '../../components/searchTab'
 import AsyncStorage from '@react-native-community/async-storage';
 import 'react-native-gesture-handler';
 import { API_URL } from '../../apis/Constance'
-import Post from '../../components/Post'
+import Post from '../../components/post'
 import { getPostInHome } from '../../apis/getPost'
 
 const wait = (timeout) => {
@@ -25,7 +25,7 @@ const newsFeed = (props) => {
         const res = await getPostInHome(token)
         setPosts(res.data.posts)
     }
-
+    
     const getMorePost = async () => {
         // const token = await AsyncStorage.getItem('token')
         // const res = await getPostInHome(token)
@@ -34,7 +34,7 @@ const newsFeed = (props) => {
 
     const onRefresh = useCallback(()=>{
         setRefresh(true)
-        getPost().then(()=>{})
+        wait(100).then(async()=> await getPost())
         wait(2000).then(setRefresh(false))
     },[])
 
@@ -53,7 +53,7 @@ const newsFeed = (props) => {
     }, [])
     
     useEffect(()=>{
-        getPost().then(()=>console.log("XXX"))
+        getPost().then(()=>{})
     },[props.time])
     return (
         <View>

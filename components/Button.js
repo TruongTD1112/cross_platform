@@ -20,7 +20,7 @@ const styles = StyleSheet.create({
         borderRadius: 5,
         shadowColor: '#fff',
         paddingHorizontal: 15  ,
-        paddingVertical: 7,
+        paddingVertical: 4,
         flexDirection: 'row',
         justifyContent: 'center'
     },

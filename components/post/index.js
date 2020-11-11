@@ -1,15 +1,18 @@
 import React, { useState, useEffect, useRef } from 'react'
 import { View, Text, StyleSheet, Image } from 'react-native'
 import { TouchableOpacity, TouchableHighlight } from 'react-native-gesture-handler'
+import RBSheet from 'react-native-raw-bottom-sheet'
 import { Divider } from 'react-native-paper'
 import Icon from 'react-native-vector-icons/AntDesign'
 import Icon1 from 'react-native-vector-icons/MaterialCommunityIcons'
-import ImageView from './ImageView'
 import AsyncStorage from '@react-native-community/async-storage';
-import { likePost, disLikePost } from '../apis/getPost'
-import { API_URL } from '../apis/Constance'
-import { getTime } from '../utils/time'
-import RBSheet from 'react-native-raw-bottom-sheet'
+import ImageView from '../ImageView'
+import { likePost, disLikePost } from '../../apis/getPost'
+import { API_URL } from '../../apis/Constance'
+import { getTime } from '../../utils/time'
+import PostList from './PostList'
+import SingleImageView from './SingleImageView'
+
 
 const Post = (props) => {
     const { post } = props
@@ -20,6 +23,8 @@ const Post = (props) => {
     const [likeDes, setLikeDes] = useState(post.likeList.length)
     const [hideContent, setHideContent] = useState(true)
     const refRBSheet = useRef()
+    const singleImageRef = useRef()
+    const postListRef = useRef()
     const limitContent = 100
     const userId = global.userId
 
@@ -116,7 +121,60 @@ const Post = (props) => {
                 </Text>
             }
             {/* image/video */}
-            <ImageView images={post.images} />
+            <ImageView images={post.images} openImageList={()=>{
+                if (post.images.length===0) return
+                if (post.images.length===1) {
+                    singleImageRef.current.open()
+                    return 
+                }
+                postListRef.current.open()
+
+            }} />
+            <RBSheet
+                ref={singleImageRef}
+                closeOnDragDown={true}
+                closeOnPressMask={true}
+                closeOnPressBack={true}
+                
+                customStyles={{
+                    wrapper: {
+                        backgroundColor: "rgba(0,0,0,0.5)",
+                    
+                    },
+                    draggableIcon: {
+                        display: 'none'
+                    },
+                    container: {
+                        // height: 180,
+
+                    }
+                }}
+            >
+                <SingleImageView images = {post.images} />
+            </RBSheet>
+
+            <RBSheet 
+                ref={postListRef}
+                closeOnDragDown={true}
+                closeOnPressMask={true}
+                closeOnPressBack={true}
+                
+                customStyles={{
+                    wrapper: {
+                        backgroundColor: "rgba(0,0,0,0.5)",
+                       
+                    },
+                    draggableIcon: {
+                        display: 'none'
+                    },
+                    container: {
+                        height: '100%',
+
+                    }
+                }}
+            >
+                <PostList images={post.images} />
+            </RBSheet>
             <View style={{ height: 30, flexDirection: 'row', padding: 0, justifyContent: 'space-between' }}>
                 <View style={{ width: '59%', flexDirection: 'row', height: 43, alignItems: 'center', justifyContent:'flex-start' }}>
                     <View style={{ width: 20, height: 20, backgroundColor: "#1a73e8", borderRadius: 15, alignItems: 'center', justifyContent: 'center', marginLeft: 10 }}>
@@ -175,6 +233,12 @@ const Post = (props) => {
                     </View>
                 </View>
             </RBSheet>
+
+            {/* for post has only 1 image */}
+            <RBSheet>
+
+            </RBSheet>
+            {/* for post with more than 1 images */}
         </View>
     )
 }
@@ -190,5 +254,4 @@ const styles = StyleSheet.create({
 })
 
 export default Post
-
 

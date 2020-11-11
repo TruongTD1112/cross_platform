@@ -11,8 +11,7 @@ import NotifyPage from './notifyPage'
 import DatingPage from './datingPage'
 import Menu from './menu'
 import WatchPage from './watchPage';
-
-
+//import friendPage from './friendPage';
 
 
 const Tab = createMaterialTopTabNavigator()
@@ -63,7 +62,7 @@ const mainPage = props => {
         >
 
             <Tab.Screen icon="home" name="newsFeed" children={() => <NewsFeed createPost={createPost} time={time} />} />
-            {/* <Tab.Screen name="marketPlace" children={()=><Marketplace />}/> */}
+            { <Tab.Screen name="DatingPage" children={()=><DatingPage/>}/>}
             <Tab.Screen name="watchPage" children={() => <WatchPage />} />
 
             <Tab.Screen name="notifyPage" children={() => <NotifyPage />} />
